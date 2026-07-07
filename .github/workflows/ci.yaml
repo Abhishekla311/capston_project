@@ -108,7 +108,7 @@ jobs:
           docker push \
           ${{ secrets.ACCOUNTID }}.dkr.ecr.${{ secrets.REGION }}.amazonaws.com/${{ secrets.REPO }}:latest
 
-      # # Setup kubectl
+      # s# Setup kubectl
       # - name: Setup kubectl
       #   if: success()
       #   uses: azure/setup-kubectl@v4
