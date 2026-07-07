@@ -30,16 +30,15 @@ jobs:
 
       - name: run pipeline
         env:
-         CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
-         MLFLOW_TRACKING_USERNAME: abhishekla311
-         MLFLOW_TRACKING_PASSWORD: ${{ secrets.CAPSTONE_TEST }}
-         DAGSHUB_CLIENT_TOKEN: ${{ secrets.CAPSTONE_TEST }} # इसे यहाँ भी जोड़ दें
+          CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+          MLFLOW_TRACKING_USERNAME: abhishekla311
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.CAPSTONE_TEST }}
+          DAGSHUB_CLIENT_TOKEN: ${{ secrets.CAPSTONE_TEST }}
         run: |
           dvc remote modify origin --local auth basic || true
           dvc remote modify origin --local user abhishekla311 || true
           dvc remote modify origin --local password ${{ secrets.CAPSTONE_TEST }} || true
           dvc repro
-
       - name: Run model tests
         env:
           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
