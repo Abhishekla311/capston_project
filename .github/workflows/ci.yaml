@@ -31,12 +31,10 @@ jobs:
       - name: run pipeline
         env:
           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
-          MLFLOW_TRACKING_USERNAME: abhishekla311
-          MLFLOW_TRACKING_PASSWORD: ${{ secrets.CAPSTONE_TEST }}
+          
+          # ADD THESE TWO LINES FOR DVC AUTHENTICATION
+         
         run: |
-          dvc remote modify origin --local auth basic || true
-          dvc remote modify origin --local user abhishekla311 || true
-          dvc remote modify origin --local password ${{ secrets.CAPSTONE_TEST }} || true
           dvc repro
 
       - name: Run model tests
