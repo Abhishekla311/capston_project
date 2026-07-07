@@ -77,65 +77,62 @@ jobs:
 
       # Configure AWS Credentials
       - name: Configure AWS Credentials
-        if: success()
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.ACCESSKEY }}
           aws-secret-access-key: ${{ secrets.SECRETKEY }}
           aws-region: ${{ secrets.REGION }}
 
+
       # Login to Amazon ECR
       - name: Login to Amazon ECR
-        if: success()
-        id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
+
 
       # Build Docker Image
       - name: Build Docker Image
-        if: success()
         run: |
           docker build -t ${{ secrets.REPO }}:latest .
 
+
       # Tag Docker Image
       - name: Tag Docker Image
-        if: success()
         run: |
-          docker tag \
-          ${{ secrets.REPO }}:latest \
-          ${{ secrets.ACCOUNTID }}.dkr.ecr.${{ secrets.REGION }}.amazonaws.com/${{ secrets.REPO }}:latest
+         docker tag \
+              ${{ secrets.REPO }}:latest \
+              ${{ secrets.ACCOUNTID }}.dkr.ecr.${{ secrets.REGION }}.amazonaws.com/${{ secrets.REPO }}:latest
 
       # Push Docker Image
       - name: Push Docker Image
-        if: success()
         run: |
           docker push \
           ${{ secrets.ACCOUNTID }}.dkr.ecr.${{ secrets.REGION }}.amazonaws.com/${{ secrets.REPO }}:latest
 
-      # Setup kubectl
-      - name: Setup kubectl
-        if: success()
-        uses: azure/setup-kubectl@v4
-        with:
-          version: latest
+      # # Setup kubectl
+      # - name: Setup kubectl
+      #   if: success()
+      #   uses: azure/setup-kubectl@v4
+      #   with:
+      #     version: latest
 
-      # Configure kubeconfig
-      - name: Update kubeconfig
-        if: success()
-        run: |
-          aws eks update-kubeconfig \
-            --region ${{ secrets.REGION }} \
-            --name flask-app-cluster
+      # # Configure kubeconfig
+      # - name: Update kubeconfig
+      #   if: success()
+      #   run: |
+      #     aws eks update-kubeconfig \
+      #       --region ${{ secrets.REGION }} \
+      #       --name flask-app-cluster
 
-      # Create Kubernetes Secret
-      - name: Create Kubernetes Secret
-        if: success()
-        run: |
-          kubectl create secret generic capstone-secret \
-            --from-literal=CAPSTONE_TEST="${{ secrets.CAPSTONE_TEST }}" \
-            --dry-run=client -o yaml | kubectl apply -f -
+      # # Create Kubernetes Secret
+      # - name: Create Kubernetes Secret
+      #   if: success()
+      #   run: |
+      #     kubectl create secret generic capstone-secret \
+      #       --from-literal=CAPSTONE_TEST="${{ secrets.CAPSTONE_TEST }}" \
+      #       --dry-run=client -o yaml | kubectl apply -f -
 
-      # Deploy to EKS
-      - name: Deploy to EKS
-        if: success()
-        run: |
-          kubectl apply -f deployment.yaml
+      # # Deploy to EKS
+      # - name: Deploy to EKS
+      #   if: success()
+      #   run: |
+      #     kubectl apply -f deployment.yaml
