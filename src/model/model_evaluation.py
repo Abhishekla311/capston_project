@@ -2,6 +2,8 @@ import os
 import sys
 import json
 import pickle
+from dotenv import load_dotenv
+
 
 import dagshub
 import mlflow
@@ -23,17 +25,27 @@ sys.path.append(
     )
 )
 from src.logger import logging
-
+load_dotenv()
 # ---------------------------------------------------------------------
 # DagsHub Credentials
 # ---------------------------------------------------------------------
 # Prefer reading these from your environment rather than hardcoding them.
-os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv(
-    "MLFLOW_TRACKING_USERNAME", ""
-)
-os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv(
-    "MLFLOW_TRACKING_PASSWORD", ""
-)
+
+dagshub_token = os.getenv("CAPSTONE_TEST")
+if not dagshub_token:
+    raise EnvironmentError("CAPSTONE_TEST environment variable is not set")
+
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+
+
+
+# os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv(
+#     "MLFLOW_TRACKING_USERNAME", ""
+# )
+# os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv(
+#     "MLFLOW_TRACKING_PASSWORD", ""
+# )
 
 # ---------------------------------------------------------------------
 # MLflow Configuration
