@@ -92,7 +92,7 @@ jobs:
       # Build Docker Imaged
       - name: Build Docker Image
         run: |
-          docker build -t ${{ secrets.REPO }}:latest .
+          docker build -t abhishek-capst12:latest .
 
 
       # Tag Docker Image
