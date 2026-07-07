@@ -33,8 +33,9 @@ jobs:
        
           DAGSHUB_CLIENT_CONFIG_STRICT: "fail"
           MLFLOW_TRACKING_USERNAME: ${{ secrets.MLFLOW_TRACKING_USERNAME }}
-          MLFLOW_TRACKING_PASSWORD: ${{ secrets.CAPSTONE_TEST }}
-          
+          MLFLOW_TRACKING_PASSWORD: ${{ secrets.MLFLOW_TRACKING_PASSWORD }}
+          # Niche wali line add karein:
+          DAGSHUB_CLIENT_TOKEN: ${{ secrets.CAPSTONE_TEST }}
         run: |
           dvc repro
 
