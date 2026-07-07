@@ -1,7 +1,14 @@
 import unittest
 import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+import os
+
+# Add project root to Python path
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.insert(0, PROJECT_ROOT)
+
 from flask_app.app import app
+
+
 class FlaskAppTests(unittest.TestCase):
 
     @classmethod
@@ -9,17 +16,21 @@ class FlaskAppTests(unittest.TestCase):
         cls.client = app.test_client()
 
     def test_home_page(self):
-        response = self.client.get('/')
+        response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b'<title>Sentiment Analysis</title>', response.data)
+        self.assertIn(b"<title>Sentiment Analysis</title>", response.data)
 
     def test_predict_page(self):
-        response = self.client.post('/predict', data=dict(text="I love this!"))
+        response = self.client.post(
+            "/predict",
+            data={"text": "I love this!"}
+        )
         self.assertEqual(response.status_code, 200)
         self.assertTrue(
-            b'Positive' in response.data or b'Negative' in response.data,
+            b"Positive" in response.data or b"Negative" in response.data,
             "Response should contain either 'Positive' or 'Negative'"
         )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()
