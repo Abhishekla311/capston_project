@@ -12,7 +12,7 @@ if os.path.exists(pkl_file_path):
         vectorizer = pickle.load(open(pkl_file_path, 'rb'))
         print("File loaded successfully.")
     except Exception as e:
-        # Handle exceptions during file loading
+        # Handle exceptions during file loadingsff
         print(f"Error loading the .pkl file: {e}")
 else:
     print(f"File not found: {pkl_file_path}. Please check the path and try again.")
