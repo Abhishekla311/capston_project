@@ -89,7 +89,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
 
-      # Build Docker Image
+      # Build Docker Imaged
       - name: Build Docker Image
         run: |
           docker build -t ${{ secrets.REPO }}:latest .
