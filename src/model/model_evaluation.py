@@ -32,7 +32,7 @@ load_dotenv()
 # Prefer reading these from your environment rather than hardcoding them.
 
 
-dagshub_token = os.getenv("CAPSTONE_TEST")
+dagshub_token = os.getenv(" ")
 
 if not dagshub_token:
     load_dotenv()
