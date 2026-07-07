@@ -32,41 +32,29 @@ load_dotenv()
 # Prefer reading these from your environment rather than hardcoding them.
 
 
-dagshub_token = os.getenv(" ")
 
-if not dagshub_token:
-    load_dotenv()
-    dagshub_token = "b478ccc2978aa44b7e95f72bc083ebae17e4b7e9"
-if not dagshub_token:
-    raise EnvironmentError("Critical Error: CAPSTONE_TEST token is missing everywhere!")
 
+dagshub_token = os.getenv("CAPSTONE_TEST")
+if not dagshub_token:
+    raise EnvironmentError("CAPSTONE_TEST environment variable is not set")
 
 os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
 os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
-
-
-
-# os.environ["MLFLOW_TRACKING_USERNAME"] = os.getenv(
-#     "MLFLOW_TRACKING_USERNAME", ""sfef
-# )
-# os.environ["MLFLOW_TRACKING_PASSWORD"] = os.getenv(
-#     "MLFLOW_TRACKING_PASSWORD", ""
-# )
-
-# ---------------------------------------------------------------------
-# MLflow Configuration
-# ---------------------------------------------------------------------
 repo_owner = "abhishekla311"
 repo_name = "capston_project"
 
-mlflow.set_tracking_uri(
-    f"https://dagshub.com/{repo_owner}/{repo_name}.mlflow"
-)
+
+
+
+dagshub_url = "https://dagshub.com/abhishekla311/capston_project.mlflow"
+
+# Set up MLflow tracking URI
+mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
 
 dagshub.init(
     repo_owner=repo_owner,
     repo_name=repo_name,
-    mlflow=True,
+    mlflow=True
 )
 
 # ---------------------------------------------------------------------

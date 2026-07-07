@@ -36,15 +36,22 @@ def normalize_text(text):
 # -------------------------
 # MLflow Setup
 # -------------------------
+dagshub_token = os.getenv("CAPSTONE_TEST")
+if not dagshub_token:
+    raise EnvironmentError("CAPSTONE_TEST environment variable is not set")
+
+os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
 repo_owner = "abhishekla311"
 repo_name = "capston_project"
 
-mlflow.set_tracking_uri(
-    f"https://dagshub.com/{repo_owner}/{repo_name}.mlflow"
-)
 
-dagshub.init(repo_owner=repo_owner, repo_name=repo_name, mlflow=True)
 
+
+dagshub_url = "https://dagshub.com/abhishekla311/capston_project.mlflow"
+
+# Set up MLflow tracking URI
+mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
 
 # -------------------------
 # LOAD MODEL
