@@ -33,8 +33,7 @@ jobs:
           CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
           
           # ADD THESE TWO LINES FOR DVC AUTHENTICATION
-          DVC_REMOTE_DAGSHUB_USERNAME: "abhishekla311"
-          DVC_REMOTE_DAGSHUB_PASSWORD: ${{ secrets.CAPSTONE_TEST }}
+         
         run: |
           dvc repro
 
