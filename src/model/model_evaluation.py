@@ -4,7 +4,6 @@ import json
 import pickle
 from dotenv import load_dotenv
 
-
 import dagshub
 import mlflow
 import mlflow.sklearn
@@ -18,46 +17,52 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 
-# Import logger
+# ------------------------------------------------------------
+# Project Path
+# ------------------------------------------------------------
 sys.path.append(
     os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..", "..")
     )
 )
+
 from src.logger import logging
+
+# ------------------------------------------------------------
+# Load Environment Variables
+# ------------------------------------------------------------
 load_dotenv()
-# ---------------------------------------------------------------------
-# DagsHub Credentials
-# ---------------------------------------------------------------------
-# Prefer reading these from your environment rather than hardcoding them.
 
-
-
-
-dagshub_token = os.getenv("CAPSTONE_TEST")
-if not dagshub_token:
-    raise EnvironmentError("CAPSTONE_TEST environment variable is not set")
-
-os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
-os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+# ------------------------------------------------------------
+# DagsHub Configuration
+# ------------------------------------------------------------
 repo_owner = "abhishekla311"
 repo_name = "capston_project"
+
+dagshub_token = os.getenv("CAPSTONE_TEST")
+
+if not dagshub_token:
+    raise EnvironmentError(
+        "CAPSTONE_TEST environment variable is not set."
+    )
+
+# IMPORTANT
+os.environ["MLFLOW_TRACKING_USERNAME"] = repo_owner
+os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
 
 mlflow.set_tracking_uri(
     f"https://dagshub.com/{repo_owner}/{repo_name}.mlflow"
 )
 
-
-
 dagshub.init(
     repo_owner=repo_owner,
     repo_name=repo_name,
-    mlflow=True
+    mlflow=True,
 )
 
-# ---------------------------------------------------------------------
+# ------------------------------------------------------------
 # Utility Functions
-# ---------------------------------------------------------------------
+# ------------------------------------------------------------
 def load_model(file_path: str):
     with open(file_path, "rb") as file:
         return pickle.load(file)
@@ -67,7 +72,7 @@ def load_data(file_path: str):
     return pd.read_csv(file_path)
 
 
-def evaluate_model(clf, X_test: np.ndarray, y_test: np.ndarray):
+def evaluate_model(clf, X_test, y_test):
 
     y_pred = clf.predict(X_test)
     y_pred_prob = clf.predict_proba(X_test)[:, 1]
@@ -93,12 +98,12 @@ def save_output(data, file_path, is_json=True):
         with open(file_path, "wb") as f:
             pickle.dump(data, f)
 
-    logging.info("Saved file : %s", file_path)
+    logging.info(f"Saved: {file_path}")
 
 
-# ---------------------------------------------------------------------
+# ------------------------------------------------------------
 # Main
-# ---------------------------------------------------------------------
+# ------------------------------------------------------------
 def main():
 
     mlflow.set_experiment("my-dvc-pipeline")
@@ -124,33 +129,23 @@ def main():
 
             save_output(
                 metrics,
-                "reports/metrics.json"
+                "reports/metrics.json",
             )
 
-            # ---------------------------------------------------------
-            # Log Metrics
-            # ---------------------------------------------------------
+            logging.info("Logging metrics...")
+
             mlflow.log_metrics(metrics)
 
-            # ---------------------------------------------------------
-            # Log Parameters
-            # ---------------------------------------------------------
             if hasattr(clf, "get_params"):
                 mlflow.log_params(clf.get_params())
 
-            # ---------------------------------------------------------
-            # Log Model (MLflow 2.22.0)
-            # ---------------------------------------------------------
+            logging.info("Logging model...")
+
             mlflow.sklearn.log_model(
                 sk_model=clf,
                 artifact_path="model",
             )
 
-            logging.info("Model logged successfully.")
-
-            # ---------------------------------------------------------
-            # Save experiment information
-            # ---------------------------------------------------------
             experiment_info = {
                 "run_id": run.info.run_id,
                 "model_path": "model",
@@ -161,14 +156,10 @@ def main():
                 "reports/experiment_info.json",
             )
 
-            # ---------------------------------------------------------
-            # Log artifacts
-            # ---------------------------------------------------------
-            mlflow.log_artifact(
-                "reports/metrics.json"
-            )
+            mlflow.log_artifact("reports/metrics.json")
+            mlflow.log_artifact("reports/experiment_info.json")
 
-            logging.info("Model evaluation completed successfully.")
+            logging.info("Pipeline completed successfully.")
 
         except Exception as e:
             logging.exception(e)
