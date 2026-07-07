@@ -36,8 +36,7 @@ dagshub_token = os.getenv(" ")
 
 if not dagshub_token:
     load_dotenv()
-    dagshub_token = os.getenv("CAPSTONE_TEST")
-
+    dagshub_token = "b478ccc2978aa44b7e95f72bc083ebae17e4b7e9"
 if not dagshub_token:
     raise EnvironmentError("Critical Error: CAPSTONE_TEST token is missing everywhere!")
 
