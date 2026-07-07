@@ -99,14 +99,15 @@ jobs:
       - name: Tag Docker Image
         run: |
          docker tag \
-              ${{ secrets.REPO }}:latest \
-              ${{ secrets.ACCOUNTID }}.dkr.ecr.${{ secrets.REGION }}.amazonaws.com/${{ secrets.REPO }}:latest
+              abhishek-capst12:latest \
+              478572913054.dkr.ecr.eu-north-1.amazonaws.com/abhishek-capst12:latest
 
       # Push Docker Image
       - name: Push Docker Image
         run: |
           docker push \
-          ${{ secrets.ACCOUNTID }}.dkr.ecr.${{ secrets.REGION }}.amazonaws.com/${{ secrets.REPO }}:latest
+          478572913054.dkr.ecr.eu-north-1.amazonaws.com/abhishek-capst12:latest
+
 
       # s# Setup kubectl
       # - name: Setup kubectl
