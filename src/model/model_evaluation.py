@@ -54,11 +54,6 @@ mlflow.set_tracking_uri(
     f"https://dagshub.com/{repo_owner}/{repo_name}.mlflow"
 )
 
-dagshub.init(
-    repo_owner=repo_owner,
-    repo_name=repo_name,
-    mlflow=True,
-)
 
 # ------------------------------------------------------------
 # Utility Functions
