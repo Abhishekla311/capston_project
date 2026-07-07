@@ -102,7 +102,7 @@ jobs:
               abhishek-capst12:latest \
               478572913054.dkr.ecr.eu-north-1.amazonaws.com/abhishek-capst12:latest
 
-      # Push Docker Image
+      # Push Docker Imagegfgf
       - name: Push Docker Image
         run: |
           docker push \
