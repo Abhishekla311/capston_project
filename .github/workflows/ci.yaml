@@ -75,7 +75,7 @@ jobs:
         run: |
           python -m unittest tests/test_flask_app.py
 
-      # Configure AWS Credentials
+      # Configure AWS Credentialsds
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
