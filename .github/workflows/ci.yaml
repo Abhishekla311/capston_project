@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout Repository
+      # Checkout Repositoryjh
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -115,7 +115,7 @@ jobs:
       - name: Create Kubernetes Secret
         run: |
            kubectl create secret generic capstone-secret \
-           --from-literal=CAPSTONE_TEST=flask-app \
+           --from-literal=CAPSTONE_TEST=${{ secrets.CAPSTONE_TEST }} \
            --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy to EKS
