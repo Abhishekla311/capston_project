@@ -8,6 +8,7 @@ import dagshub
 import re
 import string
 import numpy as np
+from dotenv import load_dotenv
 
 from prometheus_client import Counter, Histogram, generate_latest, CollectorRegistry, CONTENT_TYPE_LATEST
 from nltk.stem import WordNetLemmatizer
@@ -36,6 +37,8 @@ def normalize_text(text):
 # -------------------------
 # MLflow Setup
 # -------------------------
+
+load_dotenv()
 dagshub_token = os.getenv("CAPSTONE_TEST")
 if not dagshub_token:
     raise EnvironmentError("CAPSTONE_TEST environment variable is not set")
