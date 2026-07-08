@@ -100,13 +100,13 @@ jobs:
         run: |
          docker tag \
               abhishek-capst12:latest \
-              478572913054.dkr.ecr.eu-north-1.amazonaws.com/abhishek-capst12:latest
+              478572913054.dkr.ecr.eu-north-1.amazonaws.com/flask-app:latest
 
       # Push Docker Imagegfgf
       - name: Push Docker Image
         run: |
           docker push \
-          478572913054.dkr.ecr.eu-north-1.amazonaws.com/abhishek-capst12:latest
+          478572913054.dkr.ecr.eu-north-1.amazonaws.com/flask-app:latest
 
       - name: Update kubeconfig
         run: |
@@ -115,7 +115,7 @@ jobs:
       - name: Create Kubernetes Secret
         run: |
            kubectl create secret generic capstone-secret \
-           --from-literal=CAPSTONE_TEST=abhishek-capst12 \
+           --from-literal=CAPSTONE_TEST=flask-app \
            --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Deploy to EKS
