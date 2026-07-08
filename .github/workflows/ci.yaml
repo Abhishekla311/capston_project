@@ -99,7 +99,7 @@ jobs:
       - name: Tag Docker Image
         run: |
          docker tag \
-              abhishek-capst12:latest \
+              flask-app:latest \
               478572913054.dkr.ecr.eu-north-1.amazonaws.com/flask-app:latest
 
       # Push Docker Imagegfgf
