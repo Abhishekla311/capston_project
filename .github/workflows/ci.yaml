@@ -92,7 +92,7 @@ jobs:
       # Build Docker Imaged
       - name: Build Docker Image
         run: |
-          docker build -t abhishek-capst12:latest .
+          docker build -t flask-app:latest .
 
 
       # Tag Docker Image
